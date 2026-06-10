@@ -135,6 +135,7 @@ jobs:
         shell: bash -l {0}
         run: |
           MODEL_URI=$(cat MLProject/model_uri.txt)
+          RUN_ID=$(cat MLProject/run_id.txt)
 
           echo "Building Docker image from:"
           echo "$MODEL_URI"
@@ -143,8 +144,8 @@ jobs:
           echo "$FULL_IMAGE_NAME"
 
           mlflow models build-docker \
-            --model-uri "$MODEL_URI" \
-            -n "$FULL_IMAGE_NAME"
+            --model-uri "runs:/$RUN_ID/model" \
+            --name "$FULL_IMAGE_NAME"
 
       - name: Login to GHCR
         uses: docker/login-action@v4
