@@ -158,7 +158,7 @@ def main():
         print(f"\nModel saved locally to: {model_path}")
 
         run_id = run.info.run_id
-        model_uri = f"runs:/{run_id}/model"
+        model_uri = f"runs:/{run_id}/models"
 
         with open("run_id.txt", "w") as f:
             f.write(run_id)
