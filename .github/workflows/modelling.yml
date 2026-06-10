@@ -133,8 +133,9 @@ jobs:
 
       - name: Build Docker Image with MLflow
         shell: bash -l {0}
+        env:
+          MLFLOW_TRACKING_URI: file:MLProject/mlruns
         run: |
-          MODEL_URI=$(cat MLProject/model_uri.txt)
           RUN_ID=$(cat MLProject/run_id.txt)
 
           echo "Building Docker image from:"
