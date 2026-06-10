@@ -114,16 +114,29 @@ jobs:
           echo "Model URI:"
           cat MLProject/model_uri.txt
 
-      - name: Find and Read All MLflow Python Env Files
+      - name: Find and Read MLflow Env Files
         shell: bash -l {0}
         run: |
           echo "Current directory:"
           pwd
-          echo "Searching python_env.yaml / python_env.yml files..."
-          find . -type f \( -name "python_env.yaml" -o -name "python_env.yml" \) -print
+          echo "Searching MLflow environment files..."
+          find . -type f \( \
+            -name "python_env.yaml" -o \
+            -name "python_env.yml" -o \
+            -name "conda.yaml" -o \
+            -name "requirements.txt" -o \
+            -name "MLmodel" \
+          \) -print
+
           echo ""
-          echo "Reading all python_env files:"
-          find . -type f \( -name "python_env.yaml" -o -name "python_env.yml" \) -print0 | while IFS= read -r -d '' file; do
+          echo "Reading files:"
+          find . -type f \( \
+            -name "python_env.yaml" -o \
+            -name "python_env.yml" -o \
+            -name "conda.yaml" -o \
+            -name "requirements.txt" -o \
+            -name "MLmodel" \
+          \) -print0 | while IFS= read -r -d '' file; do
             echo "============================================================"
             echo "FILE: $file"
             echo "============================================================"
