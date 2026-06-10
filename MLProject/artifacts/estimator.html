@@ -704,8 +704,7 @@ a.param-doc-link::before {
   margin-top: 0.5em;
 }
 </style><body><div id="sk-container-id-1" tabindex="0" class="sk-top-container sk-global"><div class="sk-text-repr-fallback"><pre>CalibratedClassifierCV(cv=5, ensemble=False,
-                       estimator=SVC(C=3.1577304105435946, gamma=&#x27;auto&#x27;),
-                       n_jobs=-1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>CalibratedClassifierCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.calibration.CalibratedClassifierCV.html">?<span>Documentation for CalibratedClassifierCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+                       estimator=SVC(C=0.6297705300545552), n_jobs=-1)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>CalibratedClassifierCV</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.calibration.CalibratedClassifierCV.html">?<span>Documentation for CalibratedClassifierCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
@@ -727,7 +726,7 @@ a.param-doc-link::before {
             estimator: estimator instance, default=None<br><br>The classifier whose output need to be calibrated to provide more<br>accurate `predict_proba` outputs. The default classifier is<br>a :class:`~sklearn.svm.LinearSVC`.<br><br>.. versionadded:: 1.2</span>
         </a>
     </td>
-            <td class="value">SVC(C=3.15773... gamma=&#x27;auto&#x27;)</td>
+            <td class="value">SVC(C=0.6297705300545552)</td>
         </tr>
     
 
@@ -834,7 +833,7 @@ a.param-doc-link::before {
         </a>
     </td>
            <td class="fitted-att-type">list</td>
-           <td>[&lt;sklearn.cali...x7f59615c3ce0&gt;]</td>
+           <td>[&lt;sklearn.cali...x7f8fa094fb30&gt;]</td>
 
 
        </tr>
@@ -898,7 +897,7 @@ a.param-doc-link::before {
                 </table>
             </details>
         </div>
-    </div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: SVC</div></div></label><div class="sk-toggleable__content fitted" data-param-prefix="estimator__"><pre>SVC(C=3.1577304105435946, gamma=&#x27;auto&#x27;)</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="estimator__">
+    </div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>estimator: SVC</div></div></label><div class="sk-toggleable__content fitted" data-param-prefix="estimator__"><pre>SVC(C=0.6297705300545552)</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SVC</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.svm.SVC.html">?<span>Documentation for SVC</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="estimator__">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
@@ -920,26 +919,7 @@ a.param-doc-link::before {
             C: float, default=1.0<br><br>Regularization parameter. The strength of the regularization is<br>inversely proportional to C. Must be strictly positive. The penalty<br>is a squared l2 penalty. For an intuitive visualization of the effects<br>of scaling the regularization parameter C, see<br>:ref:`sphx_glr_auto_examples_svm_plot_svm_scale_c.py`.</span>
         </a>
     </td>
-            <td class="value">3.1577304105435946</td>
-        </tr>
-    
-
-        <tr class="user-set">
-            <td><i class="copy-paste-icon"
-                 onclick="copyToClipboard('gamma',
-                          this.parentElement.nextElementSibling)"
-            ></i></td>
-            <td class="param">
-        <a class="param-doc-link"
-            style="anchor-name: --doc-link-gamma;"
-            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.svm.SVC.html#:~:text=gamma,-%7B%27scale%27%2C%20%27auto%27%7D%20or%20float%2C%20default%3D%27scale%27">
-            gamma
-            <span class="param-doc-description"
-            style="position-anchor: --doc-link-gamma;">
-            gamma: {&#x27;scale&#x27;, &#x27;auto&#x27;} or float, default=&#x27;scale&#x27;<br><br>Kernel coefficient for &#x27;rbf&#x27;, &#x27;poly&#x27; and &#x27;sigmoid&#x27;.<br><br>- if ``gamma=&#x27;scale&#x27;`` (default) is passed then it uses<br>  1 / (n_features * X.var()) as value of gamma,<br>- if &#x27;auto&#x27;, uses 1 / n_features<br>- if float, must be non-negative.<br><br>.. versionchanged:: 0.22<br>   The default value of ``gamma`` changed from &#x27;auto&#x27; to &#x27;scale&#x27;.</span>
-        </a>
-    </td>
-            <td class="value">&#x27;auto&#x27;</td>
+            <td class="value">0.6297705300545552</td>
         </tr>
     
 
@@ -978,6 +958,25 @@ a.param-doc-link::before {
         </a>
     </td>
             <td class="value">3</td>
+        </tr>
+    
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('gamma',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-gamma;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.svm.SVC.html#:~:text=gamma,-%7B%27scale%27%2C%20%27auto%27%7D%20or%20float%2C%20default%3D%27scale%27">
+            gamma
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-gamma;">
+            gamma: {&#x27;scale&#x27;, &#x27;auto&#x27;} or float, default=&#x27;scale&#x27;<br><br>Kernel coefficient for &#x27;rbf&#x27;, &#x27;poly&#x27; and &#x27;sigmoid&#x27;.<br><br>- if ``gamma=&#x27;scale&#x27;`` (default) is passed then it uses<br>  1 / (n_features * X.var()) as value of gamma,<br>- if &#x27;auto&#x27;, uses 1 / n_features<br>- if float, must be non-negative.<br><br>.. versionchanged:: 0.22<br>   The default value of ``gamma`` changed from &#x27;auto&#x27; to &#x27;scale&#x27;.</span>
+        </a>
+    </td>
+            <td class="value">&#x27;scale&#x27;</td>
         </tr>
     
 
