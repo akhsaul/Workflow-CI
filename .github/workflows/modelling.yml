@@ -117,7 +117,7 @@ jobs:
           cd MLProject
           ls -lh .
 
-          RUN_ID=$(cat MLProject/run_id.txt)
+          RUN_ID=$(cat ./run_id.txt)
           ARTIFACT_URI=$(mlflow runs describe --run-id "$RUN_ID" | awk -F': ' '/artifact_uri:/ {print $2}')
           ARTIFACT_PATH=${ARTIFACT_URI#file://}
           RUN_DIR=$(dirname "$ARTIFACT_PATH")
