@@ -29,6 +29,11 @@ jobs:
       - name: Run actions/checkout@v6
         uses: actions/checkout@v6
 
+      - name: Set Up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.7'
+
       - name: Set up Python 3.12.7
         uses: conda-incubator/setup-miniconda@v4
         with:
@@ -71,6 +76,7 @@ jobs:
         shell: bash -l {0}
         run: |
           echo "run mlflow project"
+          # mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "${IMAGE_BASE}:${{ github.run_number }}"
 
       - name: Log in to Docker Hub
         shell: bash -l {0}
@@ -80,6 +86,7 @@ jobs:
       - name: Tag Docker image
         shell: bash -l {0}
         run: |
+          # docker tag "${IMAGE_BASE}:${{ github.run_number }}" "${IMAGE_BASE}:latest"
           echo "run mlflow project"
 
       - name: Push Docker image
