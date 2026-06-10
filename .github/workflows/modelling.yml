@@ -51,6 +51,9 @@ jobs:
             exit 1
           fi
 
+          echo "List workdir:"
+          ls -lh .
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -70,14 +73,21 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r MLProject/requirements.txt
+
           python --version
           pip --version
+
           python -c "import mlflow; print('MLflow version:', mlflow.__version__)"
+          python -c "import sklearn; print('scikit-learn version:', sklearn.__version__)"
+          python -c "import dagshub; print('dagshub version:', dagshub.__version__)"
 
       - name: Upload to Github
         run: |
-          cd MLProject/
+          cd MLProject
           mkdir -p ./artifacts
+
+          echo "List all files in mlruns:"
+          find "./mlruns" -type f | sort
 
           mlflow artifacts download \
             --run-id "$RUN_ID" \
@@ -111,21 +121,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Check all dir
-        run: |
-          cd MLProject
-          ls -lh .
-
-          RUN_ID=$(cat ./run_id.txt)
-          ARTIFACT_URI=$(mlflow runs describe --run-id "$RUN_ID" | awk -F': ' '/artifact_uri:/ {print $2}')
-          ARTIFACT_PATH=${ARTIFACT_URI#file://}
-          RUN_DIR=$(dirname "$ARTIFACT_PATH")
-
-          echo "RUN_ID=$RUN_ID"
-          echo "ARTIFACT_PATH=$ARTIFACT_PATH"
-          echo "RUN_DIR=$RUN_DIR"
-          find "$RUN_DIR" -type f | sort
 
       - name: Tag Docker image
         run: |

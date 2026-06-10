@@ -4,6 +4,7 @@ import dagshub
 import mlflow
 import mlflow.sklearn
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.svm import SVC
 from sklearn.calibration import CalibratedClassifierCV
@@ -15,6 +16,7 @@ from sklearn.metrics import (
     precision_score,
     classification_report,
     confusion_matrix,
+    ConfusionMatrixDisplay,
 )
 
 def init_tracking(
@@ -69,17 +71,37 @@ def evaluate_model(model, X_test, y_test):
 
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:, 1]
-    roc_auc = roc_auc_score(y_true=y_test, y_score=y_proba)
 
     metrics = {
         "accuracy": accuracy_score(y_test, y_pred),
         "f1_score": f1_score(y_test, y_pred),
         "recall": recall_score(y_test, y_pred),
         "precision": precision_score(y_test, y_pred),
-        "roc_auc": roc_auc,
+        "roc_auc": roc_auc_score(
+            y_true=y_test,
+            y_score=y_proba,
+        ),
     }
 
     return metrics, y_pred
+
+def save_confusion_matrix(
+    y_test,
+    y_pred,
+    output_path: str,
+):
+    fig, ax = plt.subplots(figsize=(6, 5))
+
+    ConfusionMatrixDisplay.from_predictions(
+        y_test,
+        y_pred,
+        ax=ax,
+    )
+
+    ax.set_title("Confusion Matrix - SVC")
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close(fig)
 
 def main():
     RANDOM_STATE = 42
@@ -151,23 +173,17 @@ def main():
 
         print("\nConfusion Matrix:")
         print(confusion_matrix(y_test, y_pred))
+        save_confusion_matrix(y_test, y_pred, output_path="artifacts/confusion_matrix.png")
 
-        os.makedirs("models", exist_ok=True)
-        model_path = "models/heart_disease_svc.joblib"
+        os.makedirs("artifacts/model", exist_ok=True)
+        model_path = "artifacts/model/heart_disease_svc.joblib"
         joblib.dump(model, model_path)
-
         print(f"\nModel saved locally to: {model_path}")
 
         run_id = run.info.run_id
-        model_uri = f"runs:/{run_id}/models"
-
         with open("run_id.txt", "w") as f:
             f.write(run_id)
-
-        with open("model_uri.txt", "w") as f:
-            f.write(model_uri)
         print(f"MLflow run_id: {run_id}")
-        print(f"MLflow model_uri: {model_uri}")
 
         print("Training dan logging MLflow ke DagsHub selesai.")
 
