@@ -155,13 +155,17 @@ jobs:
 
           echo "FULL_IMAGE_NAME=${IMAGE_NAME_LOWER}:${IMAGE_TAG}"
 
+      - name: Get latest MLflow run_id
+        run: |
+          RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "Latest run_id: $RUN_ID"
+
       - name: Build Docker Image with MLflow
         shell: bash -l {0}
         env:
           CONDA_PLUGINS_AUTO_ACCEPT_TOS: true
         run: |
-          RUN_ID=$(cat MLProject/run_id.txt)
-
           echo "Building Docker image from:"
           echo "$MODEL_URI"
           IMAGE_NAME_LOWER=$(echo "${REGISTRY}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')
