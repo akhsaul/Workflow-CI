@@ -17,10 +17,6 @@ env:
   DAGSHUB_REPO_NAME: ${{ secrets.DAGSHUB_REPO_NAME }}
   DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
 
-  MLFLOW_TRACKING_URI: https://dagshub.com/${{ secrets.DAGSHUB_REPO_OWNER }}/${{ secrets.DAGSHUB_REPO_NAME }}.mlflow
-  MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
-  MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_USER_TOKEN }}
-
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/heart-disease-svc
   IMAGE_TAG: latest
