@@ -120,6 +120,23 @@ jobs:
           echo "Model URI:"
           cat MLProject/model_uri.txt
 
+      - name: Find and Read All MLflow Python Env Files
+        shell: bash -l {0}
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Searching python_env.yaml / python_env.yml files..."
+          find . -type f \( -name "python_env.yaml" -o -name "python_env.yml" \) -print
+          echo ""
+          echo "Reading all python_env files:"
+          find . -type f \( -name "python_env.yaml" -o -name "python_env.yml" \) -print0 | while IFS= read -r -d '' file; do
+            echo "============================================================"
+            echo "FILE: $file"
+            echo "============================================================"
+            cat "$file"
+            echo ""
+          done
+
       - name: Upload Training Artifacts
         uses: actions/upload-artifact@v7
         with:

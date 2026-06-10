@@ -134,6 +134,7 @@ def main():
         method="sigmoid",
         cv=5,
         ensemble=False,
+        n_jobs=-1,
     )
 
     with mlflow.start_run(run_name="heart_disease_svc") as run:
