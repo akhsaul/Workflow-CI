@@ -1,0 +1,149 @@
+name: MLflow CI/CD Advanced GHCR
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  EXPERIMENT_NAME: heart-disease-svc
+
+  DAGSHUB_REPO_OWNER: ${{ secrets.DAGSHUB_REPO_OWNER }}
+  DAGSHUB_REPO_NAME: ${{ secrets.DAGSHUB_REPO_NAME }}
+  DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+
+  MLFLOW_TRACKING_URI: https://dagshub.com/${{ secrets.DAGSHUB_REPO_OWNER }}/${{ secrets.DAGSHUB_REPO_NAME }}.mlflow
+  MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+  MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_USER_TOKEN }}
+
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/heart-disease-svc
+  IMAGE_TAG: latest
+
+jobs:
+  train-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v4
+        with:
+          auto-update-conda: true
+          python-version: "3.12.7"
+          activate-environment: heart-disease-svc-env
+          environment-file: MLProject/conda.yaml
+
+      - name: Check Project Structure
+        shell: bash -l {0}
+        run: |
+          echo "Repository files:"
+          ls -la
+
+          echo "MLProject files:"
+          ls -la MLProject
+
+      - name: Run MLflow Project Training
+        shell: bash -l {0}
+        run: |
+          cd MLProject
+          mlflow run . --env-manager=local
+
+      - name: Check Generated Run Files
+        shell: bash -l {0}
+        run: |
+          echo "Generated files after training:"
+          ls -la MLProject
+
+          echo "Run ID:"
+          cat MLProject/run_id.txt
+
+          echo "Model URI:"
+          cat MLProject/model_uri.txt
+
+      - name: Upload Training Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: heart-disease-training-artifacts
+          path: |
+            MLProject/models
+            MLProject/run_id.txt
+            MLProject/model_uri.txt
+          if-no-files-found: error
+
+      - name: Set Lowercase GHCR Image Name
+        shell: bash
+        run: |
+          IMAGE_NAME_LOWER=$(echo "${REGISTRY}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')
+          echo "FULL_IMAGE_NAME=${IMAGE_NAME_LOWER}:${IMAGE_TAG}" >> "$GITHUB_ENV"
+
+          echo "FULL_IMAGE_NAME=${IMAGE_NAME_LOWER}:${IMAGE_TAG}"
+
+      - name: Build Docker Image with MLflow
+        shell: bash -l {0}
+        run: |
+          MODEL_URI=$(cat MLProject/model_uri.txt)
+
+          echo "Building Docker image from:"
+          echo "$MODEL_URI"
+
+          echo "Target image:"
+          echo "$FULL_IMAGE_NAME"
+
+          mlflow models build-docker \
+            -m "$MODEL_URI" \
+            -n "$FULL_IMAGE_NAME"
+
+      - name: Test Docker Image
+        run: |
+          docker images
+
+          docker run -d \
+            --name heart-disease-svc-container \
+            -p 5001:8080 \
+            "$FULL_IMAGE_NAME"
+
+          sleep 20
+
+          docker ps
+          docker logs heart-disease-svc-container || true
+
+          docker stop heart-disease-svc-container
+          docker rm heart-disease-svc-container
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker Image to GHCR
+        run: |
+          docker push "$FULL_IMAGE_NAME"
+
+      - name: Save GHCR Image Info
+        run: |
+          echo "GHCR image pushed successfully." > ghcr_image_info.txt
+          echo "Image: $FULL_IMAGE_NAME" >> ghcr_image_info.txt
+          echo "" >> ghcr_image_info.txt
+          echo "Pull command:" >> ghcr_image_info.txt
+          echo "docker pull $FULL_IMAGE_NAME" >> ghcr_image_info.txt
+          echo "" >> ghcr_image_info.txt
+          echo "Run command:" >> ghcr_image_info.txt
+          echo "docker run -p 8080:8080 $FULL_IMAGE_NAME" >> ghcr_image_info.txt
+
+          cat ghcr_image_info.txt
+
+      - name: Upload GHCR Image Info
+        uses: actions/upload-artifact@v7
+        with:
+          name: ghcr-image-info
+          path: ghcr_image_info.txt
