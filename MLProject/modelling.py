@@ -22,6 +22,7 @@ def init_tracking(
     repo_name: str,
     experiment_name: str,
     token: str | None = None,
+    autolog: bool = False,
 ):
     use_dagshub = bool(os.getenv("MLFLOW_TRACKING_URI")) and bool(
         os.getenv("MLFLOW_TRACKING_USERNAME")
