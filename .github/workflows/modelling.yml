@@ -1,4 +1,4 @@
-name: MLflow CI/CD Advanced GHCR
+name: MLflow CI/CD Advanced Docker Hub
 
 on:
   push:
@@ -76,19 +76,20 @@ jobs:
 
       - name: Upload to Github
         run: |
-          mkdir -p MLProject/artifacts
+          cd MLProject/
+          mkdir -p ./artifacts
 
           mlflow artifacts download \
             --run-id "$RUN_ID" \
-            --dst-path MLProject/artifacts
+            --dst-path ./artifacts
 
           echo "Downloaded MLflow artifacts:"
-          find MLProject/artifacts -maxdepth 3 -type f
+          find ./artifacts -maxdepth 3 -type f
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add MLProject/artifacts
+          git add ./artifacts
 
           if git diff --cached --quiet; then
             echo "No artifact changes to commit"
