@@ -42,8 +42,8 @@ def init_tracking(
     else:
         os.environ.pop("MLFLOW_TRACKING_URI", None)
 
-    os.environ.pop("MLFLOW_RUN_ID", None)
-    os.environ.pop("MLFLOW_EXPERIMENT_ID", None)
+    if not os.getenv("MLFLOW_RUN_ID"):
+        os.environ.pop("MLFLOW_EXPERIMENT_ID", None)
 
     mlflow.set_experiment(experiment_name)
     mlflow.sklearn.autolog(log_models=autolog)
@@ -159,7 +159,13 @@ def main():
         n_jobs=-1,
     )
 
-    with mlflow.start_run(run_name="heart_disease_svc", nested=True) as run:
+    parent_run_id = os.getenv("MLFLOW_RUN_ID")
+    if parent_run_id:
+        run_context = mlflow.start_run(run_id=parent_run_id)
+    else:
+        run_context = mlflow.start_run(run_name="heart_disease_svc")
+
+    with run_context as run:
         model.fit(X_train, y_train)
 
         metrics, y_pred = evaluate_model(model, X_test, y_test)
@@ -173,6 +179,7 @@ def main():
 
         print("\nConfusion Matrix:")
         print(confusion_matrix(y_test, y_pred))
+        os.makedirs("artifacts", exist_ok=True)
         save_confusion_matrix(y_test, y_pred, output_path="artifacts/confusion_matrix.png")
 
         os.makedirs("artifacts/model", exist_ok=True)
