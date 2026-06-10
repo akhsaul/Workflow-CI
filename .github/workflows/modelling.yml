@@ -42,7 +42,7 @@ jobs:
 
       - name: Run mlflow project
         run: |
-          mlflow run MLProject --env-manager=local
+          mlflow run MLProject --env-manager=conda
 
       - name: Get latest MLflow run_id
         run: |
@@ -60,7 +60,7 @@ jobs:
         run: |
           RUN_ID=$(cat MLProject/run_id.txt)
           echo "Run id: ${RUN_ID}"
-          cd MLProject && mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "${IMAGE_NAME}:${{ github.run_number }}" --env-manager=local
+          cd MLProject && mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "${IMAGE_NAME}:${{ github.run_number }}" --env-manager=conda
 
       - name: Log in to Docker Hub
         run: |
