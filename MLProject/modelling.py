@@ -17,26 +17,33 @@ from sklearn.metrics import (
     confusion_matrix,
 )
 
-
-def init_dagshub(
+def init_tracking(
     repo_owner: str,
     repo_name: str,
     experiment_name: str,
     token: str | None = None,
-    autolog: bool = False,
 ):
-    if token:
-        dagshub.auth.add_app_token(token)
-
-    dagshub.init(
-        repo_owner=repo_owner,
-        repo_name=repo_name,
-        mlflow=True,
+    use_dagshub = bool(os.getenv("MLFLOW_TRACKING_URI")) and bool(
+        os.getenv("MLFLOW_TRACKING_USERNAME")
     )
+
+    if use_dagshub:
+        if token:
+            dagshub.auth.add_app_token(token)
+
+        dagshub.init(
+            repo_owner=repo_owner,
+            repo_name=repo_name,
+            mlflow=True,
+        )
+    else:
+        os.environ.pop("MLFLOW_TRACKING_URI", None)
+
+    os.environ.pop("MLFLOW_RUN_ID", None)
+    os.environ.pop("MLFLOW_EXPERIMENT_ID", None)
 
     mlflow.set_experiment(experiment_name)
     mlflow.sklearn.autolog(log_models=autolog)
-
 
 def load_train_test_data(
     x_train_path: str,
