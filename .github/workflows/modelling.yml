@@ -160,6 +160,7 @@ jobs:
       - name: Build Docker Image with MLflow
         shell: bash -l {0}
         env:
+          CONDA_PLUGINS_AUTO_ACCEPT_TOS: yes
           MLFLOW_TRACKING_URI: file:MLProject/mlruns
         run: |
           RUN_ID=$(cat MLProject/run_id.txt)
