@@ -61,7 +61,11 @@ jobs:
       # Build Docker Model
       - name: Build Docker Model
         run: |
+          ls -lh MLProject/mlruns
+          NEW_ID=$(cat MLProject/run_id.txt)
+          echo "second id:$NEW_ID"
           mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "cc"
+          mlflow models build-docker --model-uri "runs:/$NEW_ID/model" --name "cc"
 
       # Login to Docker Hub
       - name: Log in to Docker Hub
