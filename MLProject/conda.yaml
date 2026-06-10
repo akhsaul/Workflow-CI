@@ -5,12 +5,10 @@ dependencies:
 - pip<=26.1.2
 - pip:
   - mlflow==2.19.0
-  - cloudpickle==3.1.2
-  - lz4==4.4.4
+  - scikit-learn==1.9.0
   - numpy==1.26.4
   - pandas==2.2.3
-  - psutil==6.0.0
-  - rich==15.0.0
-  - scikit-learn==1.9.0
-  - scipy==1.17.1
+  - dagshub
+  - matplotlib
+  - joblib
 name: mlflow-env
