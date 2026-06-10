@@ -17,6 +17,8 @@ env:
   DAGSHUB_REPO_NAME: ${{ secrets.DAGSHUB_REPO_NAME }}
   DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
 
+  CONDA_PLUGINS_AUTO_ACCEPT_TOS: yes
+
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/heart-disease-svc
   IMAGE_TAG: latest
