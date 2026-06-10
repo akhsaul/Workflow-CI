@@ -59,8 +59,8 @@ jobs:
       - name: Build Docker Model
         run: |
           RUN_ID=$(cat MLProject/run_id.txt)
-          echo "Run id: $(RUN_ID)"
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "${IMAGE_NAME}:${{ github.run_number }}" --env-manager=local
+          echo "Run id: ${RUN_ID}"
+          cd MLProject && mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "${IMAGE_NAME}:${{ github.run_number }}" --env-manager=local
 
       - name: Log in to Docker Hub
         run: |
