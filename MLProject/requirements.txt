@@ -1,6 +1,6 @@
 -i https://pypi.org/simple
 pip
-mlflow==2.19.0
+mlflow==3.11.1
 scikit-learn
 numpy
 pandas
