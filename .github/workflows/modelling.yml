@@ -17,8 +17,6 @@ env:
   DAGSHUB_REPO_NAME: ${{ secrets.DAGSHUB_REPO_NAME }}
   DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
 
-  CONDA_PLUGINS_AUTO_ACCEPT_TOS: yes
-
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/heart-disease-svc
   IMAGE_TAG: latest
@@ -39,7 +37,6 @@ jobs:
       - name: Set up Python 3.12.7
         uses: conda-incubator/setup-miniconda@v4
         with:
-          auto-update-conda: true
           python-version: "3.12.7"
           activate-environment: heart-disease-svc-env
           environment-file: MLProject/conda.yaml
@@ -52,12 +49,12 @@ jobs:
       - name: Install dependencies
         shell: bash -l {0}
         run: |
-          echo "install dependencies"
+          pip install mlflow=='2.19.0'
 
       - name: Run mlflow project
         shell: bash -l {0}
         run: |
-          echo "run mlflow project"
+          mlflow run MLProject --env-manager=local
 
       - name: Get latest MLflow run_id
         shell: bash -l {0}
@@ -104,11 +101,6 @@ jobs:
 
           echo "MLProject files:"
           ls -la MLProject
-
-      - name: Run MLflow Project Training
-        shell: bash -l {0}
-        run: |
-          mlflow run MLProject --env-manager=local
 
       - name: Check Generated Run Files
         shell: bash -l {0}
@@ -167,13 +159,14 @@ jobs:
 
           echo "Building Docker image from:"
           echo "$MODEL_URI"
+          IMAGE_NAME_LOWER=$(echo "${REGISTRY}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')
 
           echo "Target image:"
           echo "$FULL_IMAGE_NAME"
 
           mlflow models build-docker \
             --model-uri "runs:/$RUN_ID/model" \
-            --name "$FULL_IMAGE_NAME" --env-manager conda
+            --name "$IMAGE_NAME_LOWER" --env-manager conda
 
       - name: Login to GHCR
         uses: docker/login-action@v4
