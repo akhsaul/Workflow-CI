@@ -1,0 +1,41 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.7
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+mlflow_version: 2.19.0
+model_size_bytes: 71752
+model_uuid: 5c91a881cb394b6593e1ee4241a2a35d
+run_id: 602bd45a3f394ad7a7c4ba6bbfc2ddb9
+signature:
+  inputs: '[{"type": "double", "name": "age", "required": true}, {"type": "double",
+    "name": "trestbps", "required": true}, {"type": "double", "name": "chol", "required":
+    true}, {"type": "double", "name": "thalch", "required": true}, {"type": "double",
+    "name": "oldpeak", "required": true}, {"type": "double", "name": "ca", "required":
+    true}, {"type": "double", "name": "sex_Female", "required": true}, {"type": "double",
+    "name": "sex_Male", "required": true}, {"type": "double", "name": "cp_asymptomatic",
+    "required": true}, {"type": "double", "name": "cp_atypical angina", "required":
+    true}, {"type": "double", "name": "cp_non-anginal", "required": true}, {"type":
+    "double", "name": "cp_typical angina", "required": true}, {"type": "double", "name":
+    "restecg_lv hypertrophy", "required": true}, {"type": "double", "name": "restecg_normal",
+    "required": true}, {"type": "double", "name": "restecg_st-t abnormality", "required":
+    true}, {"type": "double", "name": "slope_downsloping", "required": true}, {"type":
+    "double", "name": "slope_flat", "required": true}, {"type": "double", "name":
+    "slope_upsloping", "required": true}, {"type": "double", "name": "thal_fixed defect",
+    "required": true}, {"type": "double", "name": "thal_normal", "required": true},
+    {"type": "double", "name": "thal_reversable defect", "required": true}, {"type":
+    "double", "name": "fbs_True", "required": true}, {"type": "double", "name": "exang_True",
+    "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2026-06-10 16:44:57.635045'
