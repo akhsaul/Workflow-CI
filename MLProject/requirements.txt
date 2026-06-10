@@ -1,5 +1,4 @@
 -i https://pypi.org/simple
-pip<=26.1.2
 mlflow==2.19.0
 scikit-learn==1.9.0
 numpy==2.4.6
