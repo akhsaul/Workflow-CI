@@ -104,7 +104,7 @@ def main():
         "class_weight": None,
     }
 
-    init_dagshub(
+    init_tracking(
         repo_owner=DAGSHUB_REPO_OWNER,
         repo_name=DAGSHUB_REPO_NAME,
         experiment_name=EXPERIMENT_NAME,
