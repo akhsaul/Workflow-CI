@@ -159,7 +159,7 @@ def main():
         n_jobs=-1,
     )
 
-    with mlflow.start_run(run_name="heart_disease_svc") as run:
+    with mlflow.start_run(run_name="heart_disease_svc", nested=True) as run:
         model.fit(X_train, y_train)
 
         metrics, y_pred = evaluate_model(model, X_test, y_test)
