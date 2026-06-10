@@ -1,0 +1,8 @@
+-i https://pypi.org/simple
+mlflow==2.19.0
+scikit-learn
+numpy
+pandas
+dagshub
+matplotlib
+joblib
