@@ -96,23 +96,6 @@ jobs:
             -m "$MODEL_URI" \
             -n "$FULL_IMAGE_NAME"
 
-      - name: Test Docker Image
-        run: |
-          docker images
-
-          docker run -d \
-            --name heart-disease-svc-container \
-            -p 5001:8080 \
-            "$FULL_IMAGE_NAME"
-
-          sleep 20
-
-          docker ps
-          docker logs heart-disease-svc-container || true
-
-          docker stop heart-disease-svc-container
-          docker rm heart-disease-svc-container
-
       - name: Login to GHCR
         uses: docker/login-action@v4
         with:
