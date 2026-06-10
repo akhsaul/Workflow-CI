@@ -122,8 +122,8 @@ def main():
 
     SVC_BEST_PARAMS = {
         "kernel": "rbf",
-        "C": 3.1577304105435946,
-        "gamma": "auto",
+        "C": 0.6297705300545552,
+        "gamma": "scale",
         "class_weight": None,
     }
 
