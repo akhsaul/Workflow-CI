@@ -14,9 +14,9 @@ flavors:
     serialization_format: cloudpickle
     sklearn_version: 1.9.0
 mlflow_version: 2.19.0
-model_size_bytes: 79719
-model_uuid: 66785f87804c4653b574359e2203f63d
-run_id: 4d709f09df5b40b78cf6cebd01cec0f3
+model_size_bytes: 79721
+model_uuid: 8a01017ea4334e268d50e4a81b2643b9
+run_id: 696321f9953c429ba773a51ea5d8ae78
 signature:
   inputs: '[{"type": "double", "name": "age", "required": true}, {"type": "double",
     "name": "trestbps", "required": true}, {"type": "double", "name": "chol", "required":
@@ -38,4 +38,4 @@ signature:
     "required": true}]'
   outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
   params: null
-utc_time_created: '2026-06-12 10:28:36.208361'
+utc_time_created: '2026-06-12 12:38:50.412789'
