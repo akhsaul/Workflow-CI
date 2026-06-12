@@ -125,6 +125,7 @@ def main():
         "C": 0.6297705300545552,
         "gamma": "scale",
         "class_weight": None,
+        "random_state": RANDOM_STATE
     }
 
     init_tracking(
